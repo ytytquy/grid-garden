@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나만의 마법 매거진</title>
+    <style>
+        /* 1. 기본 설정 및 테마 변수 */
+        :root {
+            --bg-color: #f4f4f0;
+            --text-color: #222;
+            --point-color: #e11d48;
+            --border-color: #333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Pretendard', 'Georgia', serif; background-color: var(--bg-color); color: var(--text-color); padding: 20px; }
+
+        /* =========================================
+           [실습 1] CSS Grid 메인 레이아웃 만들기
+           ========================================= */
+        .magazine-layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            border: 4px solid var(--border-color);
+            padding: 20px;
+
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+        }
+
+        header {
+            /* TODO 2: 헤더가 첫 칸부터 끝 칸까지 전체 너비를 차지하게 하세요. */
+            grid-column: 1 / -1;
+            text-align: center;
+            border-bottom: 4px solid var(--border-color);
+            padding-bottom: 20px; margin-bottom: 20px;
+        }
+        header h1 { font-size: 3rem; font-weight: 900; }
+        
+        aside { padding: 10px; }
+        main { border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color); padding: 0 20px; grid-template-columns:2fr 1fr;}
+
+        /* =========================================
+           [실습 2] 내부 기사 카드 Grid 배열
+           ========================================= */
+        .article-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* 기사 카드 스타일 및 Transition (마우스 오버 효과) */
+        .magic-card {
+            border-bottom: 1px solid #ccc; padding-bottom: 15px; overflow: hidden;
+            /* TODO 4: 마우스를 올렸을 때 부드럽게 위로 살짝 떠오르도록 Transition과 transform을 추가해보세요. */
+            transition: scale 0.3s;
+        }
+
+        .magic-card:hover {
+            transform: scale(1.05);
+        }
+
+        .magic-card img { width: 100%; height: 180px; object-fit: cover; }
+
+        /* =========================================
+           [실습 3] @keyframes 애니메이션 만들기
+           ========================================= */
+        .ticker-wrap { width: 100%; overflow: hidden; background: var(--border-color); color: #fff; padding: 10px 0; margin-bottom: 20px; }
+        .ticker-move {
+            display: inline-block; white-space: nowrap; animation: slide-left 10s linear infinite;
+            /* TODO 5: 아래 만든 slide-left 애니메이션을 10초 동안 무한 반복(infinite) 선형(linear)으로 적용하세요. */
+            
+        }
+        
+        img{
+            width: 100%; height: 100%;
+        }
+
+        /* 텍스트가 흘러가는 애니메이션 */
+        @keyframes slide-left {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+
+        /* NEW 뱃지 깜빡임 애니메이션 */
+        .badge-new {
+            display: inline-block; background: var(--point-color); color: white; padding: 2px 8px; font-size: 0.8rem; border-radius: 12px; margin-bottom: 10px;
+            /* TODO 6: 여기에 직접 새로운 @keyframes를 만들어 적용해보세요! (예: 둥둥 뜨기, 깜빡이기) */
+            display: inline-block;
+            background: var(--point-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+
+        /* 반응형 모바일 설정 */
+        @media (max-width: 800px) {
+            .magazine-layout { grid-template-columns: 1fr; }
+            header { grid-column: 1; }
+            main { border: none; padding: 0; margin: 20px 0; }
+            .article-grid { grid-template-columns: 1fr; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="magazine-layout">
+        <header>
+            <h1>아주아주 맛있는 음식</h1>
+            <p>Vol. 1 | 2026. 04. 19 | 내가 제일 좋아하는 음식</p>
+        </header>
+
+        <!-- 흘러가는 속보 -->
+        <div class="ticker-wrap" style="grid-column: 1 / -1;">
+            <div class="ticker-move">🔥 [속보] 오늘의 점심 추천 메뉴 ! · 맘스터치 - 싸이버거 🔥</div>
+        </div>
+
+        <aside>
+            <h2 style="border-bottom: 2px solid var(--point-color); margin-bottom: 15px;">Profile</h2>
+            <div style="background: #fff; padding: 15px; border: 1px solid #ddd;">
+                <h4>편집장의 말</h4>
+                <p style="font-size: 0.9rem; color: #666;">안녕하세요! AI게임소프트웨어학과 김현우입니다. 맛있는 음식을 알려드릴게요.</p>
+            </div>
+        </aside>
+
+        <main>
+            <div class="article-grid">
+                <!-- 기사 카드 1 -->
+                <article class="magic-card">
+                    <span class="badge-new">HOT</span>
+                    <img src="img\싸이벅벅.jpg" alt="기사 썸네일">
+                    <h3 style="font-size: 1.1rem; margin: 10px 0;">맘스터치 - 싸이버거 세트</h3>
+                    <p style="font-size: 0.9rem; color: #555;"><b>가격: 8600원</b><br> 만원도 안되는 가격에 맛있는 <br>버거, 감튀, 콜라까지. </p>
+                </article>
+
+                <!-- 기사 카드 2 -->
+                <article class="magic-card">
+                    <span class="badge-new" style="background:#3b82f6;">NEW</span>
+                    <img src="img\마라탕.jpg" alt="기사 썸네일">
+                    <h3 style="font-size: 1.1rem; margin: 10px 0;">신라 마라탕 - 마라탕</h3>
+                    <p style="font-size: 0.9rem; color: #555;"><b>가격: 10000원 + n원</b><br>각종 토핑 먹고, 국물에 밥까지 아주 든든하게 먹을 수 있음</p>
+                </article>
+            </div>
+        </main>
+
+        <aside>
+            <h2 style="border-bottom: 2px solid var(--point-color); margin-bottom: 15px;">Ad</h2>
+            <div class = "ad" style="background: #333; color: #fff; height: 250px; display: flex; align-items: center; justify-content: center; text-align: center;">
+                <p>배너 광고<br>영역</p>
+            </div>
+        </aside>
+    </div>
+
+</body>
+</html>
